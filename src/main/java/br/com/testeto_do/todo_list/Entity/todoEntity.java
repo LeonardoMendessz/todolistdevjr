@@ -1,11 +1,9 @@
 package br.com.testeto_do.todo_list.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
+@Table(name = "todo")
 public class todoEntity {
     private String nome;
     private String descricao;
