@@ -26,7 +26,7 @@ public class todoController {
         return todoService.listarTarefas();
     }
 
-    @PutMapping("/{id}")
+    @PutMapping
     public List<todoEntity> atualizarTarefa(@RequestBody todoEntity todo){
         return todoService.atualizarTarefa(todo);
     }

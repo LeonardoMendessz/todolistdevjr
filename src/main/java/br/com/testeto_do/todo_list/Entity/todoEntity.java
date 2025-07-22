@@ -14,6 +14,13 @@ public class todoEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    public todoEntity(String nome, String descricao, boolean realizado, int prioridade) {
+        this.nome = nome;
+        this.descricao = descricao;
+        this.realizado = realizado;
+        this.prioridade = prioridade;
+    }
+
     public String getNome() {
         return nome;
     }
