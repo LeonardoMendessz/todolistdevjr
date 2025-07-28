@@ -2,6 +2,7 @@ package br.com.testeto_do.todo_list.Controller;
 
 import br.com.testeto_do.todo_list.Entity.todoEntity;
 import br.com.testeto_do.todo_list.Service.todoService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class todoController {
     }
 
     @PostMapping
-    public List<todoEntity> criarTarefa(@RequestBody  todoEntity todo){
+    public List<todoEntity> criarTarefa(@RequestBody @Valid todoEntity todo){
         return todoService.criarTarefa(todo);
     }
 
@@ -27,7 +28,7 @@ public class todoController {
     }
 
     @PutMapping
-    public List<todoEntity> atualizarTarefa(@RequestBody todoEntity todo){
+    public List<todoEntity> atualizarTarefa(@RequestBody @Valid todoEntity todo){
         return todoService.atualizarTarefa(todo);
     }
 
