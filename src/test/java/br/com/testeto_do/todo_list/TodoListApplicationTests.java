@@ -38,4 +38,78 @@ class TodoListApplicationTests {
 				.jsonPath("$[0].realizado").isEqualTo(todo.isRealizado())
 				.jsonPath("$[0].prioridade").isEqualTo(todo.getPrioridade());
 	}
+
+	@Test
+	public void criarComErro(){
+		todoEntity todo = new todoEntity("","",false,0);
+		webTestClient.post()
+				.uri("/todo")
+				.bodyValue(new todoEntity("","",false,0))
+				.exchange()
+				.expectStatus().isBadRequest();
+	}
+
+	@Test
+public void testeDelete(){
+	todoEntity todoDel = new todoEntity("testar isso", "deletado com sucesso", false, 2);
+	todoEntity todoCriada =
+			webTestClient.post()
+					.uri("/todo")
+					.bodyValue(todoDel)
+					.exchange()
+					.expectStatus().isOk()
+					.expectBodyList(todoEntity.class)
+					.returnResult()
+					.getResponseBody()
+					.get(0);
+
+	// agora o delete
+
+	webTestClient.delete()
+			.uri("/todo/" + todoCriada.getId())
+			.exchange()
+			.expectStatus().isOk()
+			.expectBody()
+			.jsonPath("$").isArray()
+			.jsonPath("$.length()").isEqualTo(0);
+
+}
+
+@Test
+public void testarPut(){
+		//criar a tarefa original
+	todoEntity todoOg = new todoEntity("atualizar", "para atualizar", false, 2);
+	todoEntity todoCriada =
+			webTestClient.post()
+					.uri("/todo")
+					.bodyValue(todoOg)
+					.exchange()
+					.expectStatus().isOk()
+					.expectBodyList(todoEntity.class)
+					.returnResult()
+					.getResponseBody()
+					.get(0);
+
+	//criar novo objeto com dados atualizados
+	todoEntity todoAtualizada = new todoEntity();
+	todoAtualizada.setId(todoCriada.getId());
+	todoAtualizada.setNome("atualizei");
+	todoAtualizada.setDescricao("atualizei ja a tarefa");
+	todoAtualizada.setRealizado(true);
+	todoAtualizada.setPrioridade(1);
+
+	//enviar o put com a tarefa atualizada
+	webTestClient.put()
+			.uri("/todo")
+			.bodyValue(todoAtualizada)
+			.exchange()
+			.expectStatus().isOk()
+			.expectBody()
+			.jsonPath("$[0].nome").isEqualTo("atualizei")
+			.jsonPath("$[0].descricao").isEqualTo("atualizei ja a tarefa")
+			.jsonPath("$[0].realizado").isEqualTo(true)
+			.jsonPath("$[0].prioridade").isEqualTo(1);
+
+}
+
 }

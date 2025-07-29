@@ -27,6 +27,17 @@ public class todoEntity {
         this.prioridade = prioridade;
     }
 
+    public todoEntity(String nome, String descricao, boolean realizado, int prioridade, Long id) {
+        this.nome = nome;
+        this.descricao = descricao;
+        this.realizado = realizado;
+        this.prioridade = prioridade;
+        this.id = id;
+    }
+    public todoEntity(){
+
+    }
+
     public String getNome() {
         return nome;
     }
