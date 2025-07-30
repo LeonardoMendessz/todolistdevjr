@@ -5,6 +5,8 @@ import br.com.testeto_do.todo_list.Service.todoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,28 +21,28 @@ public class todoController {
         this.todoService = todoService;
     }
 
-    @ApiResponse(responseCode = "200",description = "Tarefa cadastrada")
+    @ApiResponse(responseCode = "201",description = "Tarefa cadastrada")
     @Operation(description = "Cria uma nova tarefa")
     @PostMapping
-    public List<todoEntity> criarTarefa(@RequestBody @Valid todoEntity todo){
-        return todoService.criarTarefa(todo);
+    public ResponseEntity<List<todoEntity>> criarTarefa(@RequestBody @Valid todoEntity todo){
+        return ResponseEntity.status(HttpStatus.CREATED).body(todoService.criarTarefa(todo));
     }
 
     @Operation(description = "Busca as tarefas")
     @GetMapping
-    public List<todoEntity> listarTarefa(){
-        return todoService.listarTarefas();
+    public ResponseEntity<List<todoEntity>> listarTarefa(){
+        return ResponseEntity.status(HttpStatus.OK).body(todoService.listarTarefas());
     }
 
     @Operation(description = "Atualiza as tarefas")
     @PutMapping
-    public List<todoEntity> atualizarTarefa(@RequestBody @Valid todoEntity todo){
-        return todoService.atualizarTarefa(todo);
+    public ResponseEntity<List<todoEntity>> atualizarTarefa(@RequestBody @Valid todoEntity todo){
+        return ResponseEntity.status(HttpStatus.OK).body(todoService.atualizarTarefa(todo));
     }
 
     @Operation(description = "Deleta as tarefas")
     @DeleteMapping("/{id}")
-    public List<todoEntity> deletarTarefa(@PathVariable Long id){
-        return todoService.deletarTarefa(id);
+    public ResponseEntity<List<todoEntity>> deletarTarefa(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(todoService.deletarTarefa(id));
     }
 }
